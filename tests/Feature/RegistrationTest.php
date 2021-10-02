@@ -74,6 +74,22 @@ class RegistrationTest extends TestCase
     }
 
     /** @test */
+    public function email_unique_validation_as_type()
+    {
+        factory(User::class)->create([
+            'email' => 'agustavo@gmail.com'
+        ]);
+
+        Livewire::test('auth.register')
+            ->set('email', 'agustav@gmail.com')
+            ->assertHasNoErrors();
+
+        Livewire::test('auth.register')
+            ->set('email', 'agustavo@gmail.com')
+            ->assertHasErrors(['email' => 'unique']);
+    }
+
+    /** @test */
     public function password_is_required()
     {
         Livewire::test('auth.register')
