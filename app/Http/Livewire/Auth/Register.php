@@ -3,7 +3,10 @@
 namespace App\Http\Livewire\Auth;
 
 use App\User;
+use Illuminate\Http\Response as HttpResponse;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Response;
 use Livewire\Component;
 
 class Register extends Component
@@ -35,13 +38,17 @@ class Register extends Component
             'password' => Hash::make($this->password)
         ]);
 
-        auth()->login($user);
+        Auth::login($user);
 
-        return redirect(route('dashboard'));
+        return Response::redirectToIntended(
+            route('dashboard'),
+            HttpResponse::HTTP_PERMANENTLY_REDIRECT
+        );
     }
 
     public function render()
     {
-        return view('livewire.auth.register');
+        return view('livewire.auth.register')
+            ->layout('layouts.auth');
     }
 }

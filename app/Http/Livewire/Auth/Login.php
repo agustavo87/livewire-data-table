@@ -2,8 +2,9 @@
 
 namespace App\Http\Livewire\Auth;
 
-use App\User;
+use Illuminate\Http\Response as HttpResponse;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Response;
 use Livewire\Component;
 
 class Login extends Component
@@ -19,16 +20,19 @@ class Login extends Component
             'password' => 'required',
         ]);
 
-        if (!auth()->attempt($credentials)) {
+        if (!Auth::attempt($credentials)) {
             $this->addError('email', trans('auth.failed'));
             return;
         }
-        return redirect()->intended('dashboard');
-
+        return Response::redirectToIntended(
+            route('dashboard'),
+            HttpResponse::HTTP_PERMANENTLY_REDIRECT
+        );
     }
 
     public function render()
     {
-        return view('livewire.auth.login');
+        return view('livewire.auth.login')
+            ->layout('layouts.auth');
     }
 }
