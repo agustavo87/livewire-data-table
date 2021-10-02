@@ -37,7 +37,7 @@ class Register extends Component
 
         auth()->login($user);
 
-        return redirect('/');
+        return redirect(route('dashboard'));
     }
 
     public function render()
