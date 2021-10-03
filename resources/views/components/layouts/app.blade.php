@@ -15,7 +15,7 @@
                     <img src="/img/Sofrosine-light.svg" alt="Sofrosine Logo" class="w-20" />
                 </a>
                 <nav class="text-sm font-medium text-gray-500 overflow-x-hidden overflow-y-auto" aria-label="Main Navigation">
-                    <a class="flex items-center px-4 py-3 transition cursor-pointer group hover:bg-gray-800 hover:text-gray-200" href="#">
+                    <a  href="{{ route('dashboard') }}" class="flex items-center px-4 py-3 transition cursor-pointer group hover:bg-gray-800 hover:text-gray-200">
                         <x-icons.home class="flex-shrink-0 w-5 h-5 mr-2 text-gray-400 transition group-hover:text-gray-300" />
                         <span>Home</span>
                     </a>
@@ -26,7 +26,7 @@
                 </nav>
             </div>
             <div class="border-indigo-900 border-t flex flex-shrink-0 p-4">
-                <a href="#" class="flex-shrink-0 w-full group block">
+                <a href=" {{ route('profile') }}" class="flex-shrink-0 w-full group block">
                     <div class="flex items-center">
                         <div>
                             <img class="inline-block h-9 w-9 rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=2&amp;w=256&amp;h=256&amp;q=80" alt="">
@@ -54,10 +54,6 @@
                 </button>
             </div>
             <main class="flex-1 relative z-0 overflow-y-auto pt-2 pb-6 focus:outline-none md:py-6" tabindex="0" x-data="" x-init="$el.focus()">
-                <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
-                    <h1 class="text-2xl font-semibold text-gray-900">Dashboard</h1>
-                </div>
-
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
                     {{ $slot}}
                 </div>

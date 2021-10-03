@@ -9,12 +9,12 @@
         <form wire:submit.prevent="login" class="pb-1 space-y-4">
           <label class="block">
             <span class="block mb-1 text-xs font-medium text-gray-700">Your Email</span>
-            <input wire:model.defer="email" class="form-input @error('name') border-red-500 @enderror" type="email" name="email" placeholder="Ex. james@bond.com" inputmode="email" required />
+            <input wire:model.defer="email" class="form-input @error('name') border-red-500 @enderror" type="email" id="email" name="email" autofocus placeholder="Ex. james@bond.com" inputmode="email" required />
             @error('email') <div class="text-red-700 text-sm mt-1"> {{ $message }} </div> @enderror
           </label>
           <label class="block">
             <span class="block mb-1 text-xs font-medium text-gray-700">Your Password</span>
-            <input wire:model.defer="password" class="form-input @error('password') border-red-500 @enderror" type="password" name="password" placeholder="" required />
+            <input wire:model.defer="password" class="form-input @error('password') border-red-500 @enderror" type="password" name="password" id="password"  placeholder="" required />
             @error('password') <div class="text-red-700 text-sm mt-1"> {{ $message }} </div> @enderror
           </label>
           <div class="flex">
