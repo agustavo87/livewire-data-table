@@ -3,7 +3,6 @@
 namespace App\Http\Livewire;
 
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Session;
 use Livewire\Component;
 
 class Profile extends Component
@@ -28,7 +27,7 @@ class Profile extends Component
 
         Auth::user()->update($profileData);
 
-        Session::flash('notify-saved');
+        $this->emitSelf('notify-saved');
     }
 
     public function render()

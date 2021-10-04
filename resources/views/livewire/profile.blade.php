@@ -67,20 +67,20 @@
         <div class="mt-8 border-t border-gray-200 pt-5">
             <div class="space-x-3 flex justify-end items-center">
                 <span>
-                    @if (session()->has('notify-saved'))
-                        <span
-                            x-data="{open: true}"
-                            x-init="
+                    <span
+                        x-data="{open: false}"
+                        x-init="
+                            @this.on('notify-saved', () => {
                                 setTimeout(() => {open = false}, 2500);
-                                setTimeout(() => { $refs.this.remove() }, 3500)
-                            "
-                            x-show.transition.duration.1000ms="open"
-                            class="text-gray-500"
-                            x-ref="this"
-                        >
-                            Saved
-                        </span>
-                    @endif
+                                open = true
+                            })
+                        "
+                        x-show.transition.out.duration.1000ms="open"
+                        class="text-gray-500"
+                        x-ref="this"
+                    >
+                        Saved
+                    </span>
                 </span>
                 <span class="inline-flex rounded-md shadow-sm">
                     <button type="button"
