@@ -3,6 +3,7 @@
 
     <form wire:submit.prevent="save">
         <div class="mt-6 sm:mt-5">
+
             <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
                 <label for="username" class="block text-sm font-medium leading-5 text-gray-700 sm:mt-px sm:pt-2">
                     Username
@@ -65,7 +66,22 @@
 
         <div class="mt-8 border-t border-gray-200 pt-5">
             <div class="space-x-3 flex justify-end items-center">
-
+                <span>
+                    @if (session()->has('notify-saved'))
+                        <span
+                            x-data="{open: true}"
+                            x-init="
+                                setTimeout(() => {open = false}, 2500);
+                                setTimeout(() => { $refs.this.remove() }, 3500)
+                            "
+                            x-show.transition.duration.1000ms="open"
+                            class="text-gray-500"
+                            x-ref="this"
+                        >
+                            Saved
+                        </span>
+                    @endif
+                </span>
                 <span class="inline-flex rounded-md shadow-sm">
                     <button type="button"
                         class="py-2 px-4 border border-gray-300 rounded-md text-sm leading-5 font-medium text-gray-700 hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800 transition duration-150 ease-in-out">
