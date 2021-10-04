@@ -11,10 +11,13 @@ class Profile extends Component
 
     public $about = '';
 
+    public $birthday = null;
+
     public function mount()
     {
         $this->username = Auth::user()->username;
         $this->about = Auth::user()->about;
+        $this->birthday = optional(Auth::user()->birthday)->format('m/d/Y');
     }
 
     public function save()
@@ -22,7 +25,8 @@ class Profile extends Component
 
         $profileData = $this->validate([
             'username'  => 'max:24',
-            'about'     => 'max:140'
+            'about'     => 'max:140',
+            'birthday'  => 'sometimes'
         ]);
 
         Auth::user()->update($profileData);

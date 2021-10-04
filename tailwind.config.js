@@ -11,5 +11,8 @@ module.exports = {
   variants: {
     extend: {},
   },
-  plugins: [require("kutty")],
+  plugins: [
+    require('@tailwindcss/forms'),
+    require("kutty")
+  ],
 }

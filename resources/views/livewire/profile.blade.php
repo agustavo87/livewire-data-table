@@ -7,6 +7,10 @@
                 <x-input.text wire:model="username" id="username"  leading-add-on="sofrosine.com/" />
             </x-input.group>
 
+            <x-input.group label="Birthday" for="birthday" :error="$errors->first('birthday')">
+                <x-input.date wire:model="birthday" id="birthday" placeholder="MM/DD/YY" />
+            </x-input.group>
+
             <x-input.group label="About" for="about" :error="$errors->first('about')" help-text="Write a few sentences about yourself." >
                 <x-input.textarea wire:model="about" id="about" />
             </x-input.group>
