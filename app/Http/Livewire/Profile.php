@@ -16,7 +16,7 @@ class Profile extends Component
 
     public $birthday = null;
 
-    public $newAvatar;
+    public $newAvatar = null;
 
     public function mount()
     {
@@ -27,29 +27,30 @@ class Profile extends Component
 
     public function updatedNewAvatar()
     {
-        $this->validate(['newAvatar' => 'image|max:1000']);
+        $this->validate(['newAvatar' => 'nullable|sometimes|image|max:1000']);
     }
 
     public function save()
     {
-        // dd($this->newAvatar);
-        $profileData = $this->validate([
+        $this->validate([
             'username'  => 'max:24',
             'about'     => 'max:140',
             'birthday'  => 'sometimes',
-            'newAvatar' =>  'image|max:1000'
+            'newAvatar' =>  'nullable|sometimes|image|max:1000'
         ]);
 
-        $filename = $this->newAvatar->store('/', 'avatars');
-
-        // dd($filename);
-
-        Auth::user()->update([
+        $updateData = [
             'username'  => $this->username,
             'about'     => $this->about,
             'birthday'  => $this->birthday,
-            'avatar'    => $filename
-        ]);
+        ];
+
+        if ($this->newAvatar) {
+            $filename = $this->newAvatar->store('/', 'avatars');
+            $updateData['avatar'] = $filename;
+        }
+
+        Auth::user()->update($updateData);
 
         $this->emitSelf('notify-saved');
     }
