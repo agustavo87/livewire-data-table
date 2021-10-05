@@ -18,6 +18,13 @@ class Profile extends Component
 
     public $newAvatar = null;
 
+    protected $rules = [
+        'username'  => 'max:24',
+        'about'     => 'max:140',
+        'birthday'  => 'sometimes',
+        'newAvatar' =>  'nullable|sometimes|image|max:1000'
+    ];
+
     public function mount()
     {
         $this->username = Auth::user()->username;
@@ -27,17 +34,12 @@ class Profile extends Component
 
     public function updatedNewAvatar()
     {
-        $this->validate(['newAvatar' => 'nullable|sometimes|image|max:1000']);
+        $this->validateOnly('newAvatar');
     }
 
     public function save()
     {
-        $this->validate([
-            'username'  => 'max:24',
-            'about'     => 'max:140',
-            'birthday'  => 'sometimes',
-            'newAvatar' =>  'nullable|sometimes|image|max:1000'
-        ]);
+        $this->validate();
 
         $updateData = [
             'username'  => $this->username,

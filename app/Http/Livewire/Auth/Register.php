@@ -19,6 +19,12 @@ class Register extends Component
 
     public $passwordConfirmation = '';
 
+    protected $rules = [
+        'name' => 'required',
+        'email' => 'required|email|unique:users',
+        'password' => 'required|min:6|same:passwordConfirmation'
+    ];
+
     public function updatedEmail()
     {
         $this->validate(['email' => 'unique:users']);
@@ -26,11 +32,7 @@ class Register extends Component
 
     public function register()
     {
-        $data = $this->validate([
-            'name' => 'required',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|min:6|same:passwordConfirmation'
-        ]);
+        $this->validate();
 
         $user = User::create([
             'name' => $this->name,
