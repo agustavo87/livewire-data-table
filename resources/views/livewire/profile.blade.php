@@ -17,11 +17,11 @@
 
             <x-input.group label="Photo" for="photo" :error="$errors->first('upload')">
                 <x-input.file-upload wire:model="upload" id="photo" :new-avatar="$upload">
-                    <span class="h-12 w-12 rounded-full overflow-hidden bg-gray-100">
+                    <span>
                         @if($upload)
-                            <img src="{{ $upload->temporaryUrl() }}" alt="Profile Photo">
+                            <img src="{{ $upload->temporaryUrl() }}" class="inline-block h-10 w-10 rounded-full" alt="Profile Photo">
                         @else
-                            <img src="{{ auth()->user()->avatarUrl() }}" alt="Profile Photo">
+                            <img src="{{ auth()->user()->avatarUrl() }}" class="inline-block h-10 w-10 rounded-full"  alt="Profile Photo">
                         @endif
                     </span>
                 </x-input.file-upload>
