@@ -1,13 +1,19 @@
 @props(['initialValue' => ''])
 <div
-    {{ $attributes }}
+    {{ $attributes->whereDoesntStartWith('wire:model') }}
     wire:ignore
-    x-data
-    @trix-blur="$dispatch('change', $event.target.value)"
+    x-data="{
+        value : @entangle( $attributes->wire('model') ),
+        isNotFocused() {return document.activeElement !== this.$refs.trix},
+        setValue() {this.$refs.trix.editor.loadHTML(this.value)}
+    }"
+    x-init="setValue(); $watch('value', () => isNotFocused() && setValue())"
+    x-on:trix-change="value = $event.target.value"
     class="rounded-md shadow-sm"
 >
-    <input id="x" value="{{ $initialValue }}" type="hidden">
-    <trix-editor input="x" class="shadow-sm block w-full focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border border-gray-300 rounded-md"></trix-editor>
+    <input id="x" x-bind:value="value" type="hidden">
+    <trix-editor x-ref="trix" input="x" class="shadow-sm block w-full focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border border-gray-300 rounded-md"></trix-editor>
+    <button wire:click="$set('user.about', 'afasfafs')">Pete</button>
 </div>
 @once
     @push('styles')
