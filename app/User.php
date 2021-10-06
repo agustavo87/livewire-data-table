@@ -29,7 +29,7 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'birthday'  => 'date'
+        'birthday'  => 'date:d/m/Y'
     ];
 
     public function avatarUrl()
@@ -37,5 +37,11 @@ class User extends Authenticatable
         return $this->avatar ?
             Storage::disk('avatars')->url($this->avatar)
             : "https://www.gravatar.com/avatar/" . md5(strtolower(trim($this->email))) . "?d=retro";
+    }
+
+    public function setBirthdayAttribute($value)
+    {
+        // dd('birthday:', $value);
+        $this->attributes['birthday'] = date_create_from_format('d/m/Y', $value);
     }
 }
