@@ -10,7 +10,7 @@ class Dashboard extends Component
     public function render()
     {
         return view('livewire.dashboard', [
-            'transactions' => Transaction::all()
+            'transactions' => Transaction::paginate(10)
         ]);
     }
 }

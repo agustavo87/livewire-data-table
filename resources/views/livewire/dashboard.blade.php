@@ -37,5 +37,6 @@
                 @endforeach
             </x-slot>
         </x-table>
+        {{ $transactions->links() }}
     </div>
 </div>
