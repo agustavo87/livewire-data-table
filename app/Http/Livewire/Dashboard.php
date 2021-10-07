@@ -15,8 +15,27 @@ class Dashboard extends Component
     public $searchField = 'title';
     public $sortField = 'title';
     public $sortDirection = 'asc';
+    public $showEditModal = false;
+    public Transaction $editing;
 
     protected $queryString = ['sortField', 'sortDirection'];
+
+    public function rules()
+    {
+        return [
+            'editing.title' => 'required',
+            'editing.amount' => 'required',
+            'editing.status' => 'required|in:' . implode(',', array_keys(Transaction::STATUSES)),
+            'editing.date_for_editing' => 'required'
+        ];
+    }
+
+    public function mount() { $this->editing = $this->makeBlankTransaction(); }
+
+    public function makeBlankTransaction()
+    {
+        return Transaction::make(['date' => now(), 'status' => 'success']);
+    }
 
     public function sortBy($field)
     {
@@ -26,6 +45,19 @@ class Dashboard extends Component
             $this->sortDirection = 'asc';
         }
         $this->sortField = $field;
+    }
+
+    public function edit(Transaction $transaction)
+    {
+        $this->editing = $transaction;
+        $this->showEditModal = true;
+    }
+
+    public function save()
+    {
+        $this->validate();
+        $this->editing->save();
+        $this->showEditModal = false;
     }
 
     public function render()

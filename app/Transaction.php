@@ -41,6 +41,7 @@ class Transaction extends Model
 
     protected $guarded = [];
     protected $casts = ['date' => 'date'];
+    protected $appends = ['date_for_editing'];
 
     public function getStatusColorAttribute()
     {
@@ -52,16 +53,16 @@ class Transaction extends Model
 
     public function getDateForHumansAttribute()
     {
-        return $this->date->format('M, d Y');
+        return $this->date->format('d M - Y');
     }
 
     public function getDateForEditingAttribute()
     {
-        return $this->date->format('m/d/Y');
+        return $this->date->format('d/m/Y');
     }
 
     public function setDateForEditingAttribute($value)
     {
-        $this->date = Carbon::parse($value);
+        $this->date = date_create_from_format('d/m/Y', $value);
     }
 }

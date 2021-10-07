@@ -12,7 +12,7 @@
     class="rounded-md shadow-sm"
 >
     <input id="x" x-bind:value="value" type="hidden">
-    <trix-editor x-ref="trix" input="x" class="shadow-sm block w-full focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border border-gray-300 rounded-md"></trix-editor>
+    <trix-editor x-ref="trix" input="x" class="shadow-sm block w-full bg-white focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border border-gray-300 rounded-md"></trix-editor>
 </div>
 @once
     @push('styles')
