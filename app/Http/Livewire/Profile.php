@@ -43,6 +43,7 @@ class Profile extends Component
 
         $this->user->save();
 
+        $this->emit('profileUpdated');
         $this->emitSelf('notify-saved');
     }
 
