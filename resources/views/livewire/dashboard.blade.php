@@ -2,15 +2,61 @@
     <h1 class="text-2xl font-semibold text-gray-900">Dashboard</h1>
 
     <div class="py-4 flex flex-col space-y-4">
-        <div>
-            <div class="w-1/4">
-                <x-input.text wire:model="search" placeholder="Search transactions..." />
+
+        <div class="flex justify-between">
+            <div class="w-2/4 flex space-x-4">
+                <x-input.text wire:model="filters.search" placeholder="Search transactions..." />
+
+                <x-button.link wire:click="$toggle('showFilters')">@if($showFilters) Hide @endif Advance search</x-button.link>
+            </div>
+
+            <div>
+                <x-button.primary wire:click="create" class="flex"><x-icons.plus class="-ml-1.5" />New</x-button.primary>
             </div>
         </div>
+
+        <div>
+            @if($showFilters)
+            <div class="bg-gray-200 p-4 rounded shadow-inner flex relative">
+                <div class="w-1/2 pr-2 space-y-4">
+                    <x-input.group inline for="filter-status" label="Status">
+                        <x-input.select wire:model="filters.status" id="filter-status">
+                            <option value="" disabled>Select Status...</option>
+
+                            @foreach (App\Transaction::STATUSES as $value => $label)
+                            <option value="{{ $value }}">{{ $label }}</option>
+                            @endforeach
+                        </x-input.select>
+                    </x-input.group>
+
+                    <x-input.group inline for="filter-amount-min" label="Minimum Amount">
+                        <x-input.money wire:model.lazy="filters.amount-min" id="filter-amount-min" />
+                    </x-input.group>
+
+                    <x-input.group inline for="filter-amount-max" label="Maximum Amount">
+                        <x-input.money wire:model.lazy="filters.amount-max" id="filter-amount-max" />
+                    </x-input.group>
+                </div>
+                <div class="w-1/2 pl-2 space-y-4">
+                    <x-input.group inline for="filter-date-min" label="Minimum Date">
+                        <x-input.date wire:model="filters.date-min" id="filter-date-min" placeholder="MM/DD/YYYY" />
+                    </x-input.group>
+
+                    <x-input.group inline for="filter-date-max" label="Maximum Date">
+                        <x-input.date wire:model="filters.date-max" id="filter-date-max" placeholder="MM/DD/YYYY" />
+                    </x-input.group>
+
+                    <x-button.link wire:click="resetFilters" class="absolute right-0 bottom-0 p-4">Reset Filters</x-button.link>
+                </div>
+            </div>
+            @endif
+        </div>
+
+
         <div class="flex flex-col space-y-4">
             <x-table>
                 <x-slot name="head">
-                    <x-table.heading wire:click="sortBy('title')" :direction="$sortField == 'title' ? $sortDirection : null" sortable>Title</x-table.heading>
+                    <x-table.heading wire:click="sortBy('title')" :direction="$sortField == 'title' ? $sortDirection : null" class="w-3/6" sortable>Title</x-table.heading>
                     <x-table.heading wire:click="sortBy('amount')" :direction="$sortField == 'amount' ? $sortDirection : null"  sortable>Amount</x-table.heading>
                     <x-table.heading wire:click="sortBy('status')" :direction="$sortField == 'status' ? $sortDirection : null"  sortable>Status</x-table.heading>
                     <x-table.heading wire:click="sortBy('date')" :direction="$sortField == 'date' ? $sortDirection : null"  sortable>Date</x-table.heading>
@@ -72,7 +118,7 @@
             <x-slot name="title">Edit Transaction</x-slot>
             <x-slot name="content">
                 <x-input.group for="title" label="Title" :error="$errors->first('editing.title')">
-                    <x-input.text id="title" wire:model.lazy="editing.title"  />
+                    <x-input.text id="title" wire:model.lazy="editing.title"  placeholder="Title" />
                 </x-input.group>
 
                 <x-input.group for="amount" label="Amount" :error="$errors->first('editing.amount')">
