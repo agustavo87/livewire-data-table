@@ -5,4 +5,10 @@
  <rule ref="PSR1.Methods.CamelCapsMethodName">
    <severity>0</severity>
  </rule>
+ <rule ref="Generic.ControlStructures.InlineControlStructure.NotAllowed">
+   <severity>0</severity>
+ </rule>
+ <rule ref="PSR12.Traits.UseDeclaration.MultipleImport">
+   <severity>0</severity>
+ </rule>
 </ruleset>
