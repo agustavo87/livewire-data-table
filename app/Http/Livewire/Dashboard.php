@@ -4,10 +4,10 @@ namespace App\Http\Livewire;
 
 use App\Transaction;
 use Livewire\Component;
-use Livewire\WithPagination;
 use Illuminate\Support\Facades\Response;
 use App\Http\Livewire\DataTable\WithSorting;
 use App\Http\Livewire\DataTable\WithBulkActions;
+use App\Http\Livewire\DataTable\WithPerPagePagination;
 
 /**
  * App\Http\Livewire\Dashboard
@@ -17,7 +17,7 @@ use App\Http\Livewire\DataTable\WithBulkActions;
  */
 class Dashboard extends Component
 {
-    use WithPagination, WithSorting, WithBulkActions;
+    use WithPerPagePagination, WithSorting, WithBulkActions;
 
     public Transaction $editing;
 
@@ -55,13 +55,10 @@ class Dashboard extends Component
         $this->resetPage();
     }
 
-
     public function makeBlankTransaction()
     {
         return Transaction::make(['date' => now(), 'status' => 'success']);
     }
-
-
 
     public function edit(Transaction $transaction)
     {
@@ -85,7 +82,6 @@ class Dashboard extends Component
         $this->editing->save();
         $this->showEditModal = false;
     }
-
 
     public function exportSelected()
     {
@@ -121,10 +117,9 @@ class Dashboard extends Component
         return $this->applySorting($query);
     }
 
-
     public function getRowsProperty()
     {
-        return $this->rowsQuery->paginate(10);
+        return $this->applyPagination($this->rowsQuery);
     }
 
     public function render()

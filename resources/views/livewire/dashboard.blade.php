@@ -11,7 +11,15 @@
                 <x-button.link wire:click="$toggle('showFilters')">@if($showFilters) Hide @endif Advance search</x-button.link>
             </div>
 
-            <div class="flex space-x-2">
+            <div class="flex space-x-2 items-center">
+                <x-input.group borderless paddingless for="perPage" label="Per page">
+                    <x-input.select wire:model="perPage" id="perPage">
+                        <option value="10">10</option>
+                        <option value="25">25</option>
+                        <option value="50">50</option>
+                    </x-input.select>
+                </x-input.group>
+
                 <x-dropdown label="Bulk Actions">
                     <x-dropdown.item type="button" wire:click="exportSelected" class="flex items-center space-x-2">
                         <x-icons.download class="text-gray-400"/><span>Export</span>
@@ -20,6 +28,7 @@
                         <x-icons.trash class="text-gray-400"/> <span>Delete</span>
                     </x-dropdown.item>
                 </x-dropdown>
+
                 <x-button.primary wire:click="create" class="flex"><x-icons.plus class="-ml-1.5" />New</x-button.primary>
             </div>
         </div>
