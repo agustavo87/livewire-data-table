@@ -10,7 +10,17 @@
                 <x-button.link wire:click="$toggle('showFilters')">@if($showFilters) Hide @endif Advance search</x-button.link>
             </div>
 
-            <div>
+
+
+            <div class="flex space-x-2">
+                <x-dropdown label="Bulk Actions">
+                    <x-dropdown.item type="button" wire:click="exportSelected" class="flex items-center space-x-2">
+                        <x-icons.download class="text-gray-400"/><span>Export</span>
+                    </x-dropdown.item>
+                    <x-dropdown.item type="button" wire:click="deleteSelected" class="flex items-center space-x-2">
+                        <x-icons.trash class="text-gray-400"/> <span>Delete</span>
+                    </x-dropdown.item>
+                </x-dropdown>
                 <x-button.primary wire:click="create" class="flex"><x-icons.plus class="-ml-1.5" />New</x-button.primary>
             </div>
         </div>
@@ -52,19 +62,25 @@
             @endif
         </div>
 
-
         <div class="flex flex-col space-y-4">
             <x-table>
                 <x-slot name="head">
+                    <x-table.heading class="pr-0 w-8">
+                        <x-input.checkbox />
+                    </x-table.heading>
                     <x-table.heading wire:click="sortBy('title')" :direction="$sortField == 'title' ? $sortDirection : null" class="w-3/6" sortable>Title</x-table.heading>
                     <x-table.heading wire:click="sortBy('amount')" :direction="$sortField == 'amount' ? $sortDirection : null"  sortable>Amount</x-table.heading>
                     <x-table.heading wire:click="sortBy('status')" :direction="$sortField == 'status' ? $sortDirection : null"  sortable>Status</x-table.heading>
                     <x-table.heading wire:click="sortBy('date')" :direction="$sortField == 'date' ? $sortDirection : null"  sortable>Date</x-table.heading>
                     <x-table.heading />
                 </x-slot>
+
                 <x-slot name="body">
                     @forelse($transactions as $transaction)
-                        <x-table.row wire:loading.class.delay="opacity-75">
+                        <x-table.row wire:loading.class.delay="opacity-75" wire:key="row-{{ $transaction->id }}">
+                            <x-table.cell class="pr-0">
+                                <x-input.checkbox wire:model="selected" value="{{ $transaction->id }}" />
+                            </x-table.cell>
                             <x-table.cell>
                                 <span  class="inline-flex space-x-2 truncate text-sm">
                                     <x-icons.cash class="flex-shrink-0 h-5 w-5 text-gray-400 " />

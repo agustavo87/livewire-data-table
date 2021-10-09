@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Transaction;
+use Illuminate\Support\Facades\Response;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -15,7 +16,7 @@ class Dashboard extends Component
     public $showEditModal = false;
     public $showFilters = false;
     public Transaction $editing;
-
+    public $selected = [];
     public array $filters = [
         'search'        => null,
         'status'        => '',
@@ -74,6 +75,21 @@ class Dashboard extends Component
         $this->validate();
         $this->editing->save();
         $this->showEditModal = false;
+    }
+
+    public function exportSelected()
+    {
+        return Response::streamDownload(function () {
+            echo Transaction::whereKey($this->selected)->toCsv();
+        }, 'transactions.csv');
+    }
+
+    public function deleteSelected()
+    {
+        /** @var \Illuminate\Database\Eloquent\Builder */
+        $transactions = Transaction::whereKey($this->selected);
+        $transactions->delete();
+
     }
 
     public function resetFilters()
