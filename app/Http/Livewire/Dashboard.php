@@ -33,7 +33,7 @@ class Dashboard extends Component
         'date-max'      => null,
     ];
 
-    protected $queryString = ['sortField', 'sortDirection'];
+    protected $queryString = [];
 
     public function rules()
     {

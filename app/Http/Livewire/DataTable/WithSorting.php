@@ -8,17 +8,15 @@ use Illuminate\Database\Query\Builder;
 
 trait WithSorting
 {
-    public $sortField = 'title';
-    public $sortDirection = 'asc';
+    public $sorts = [];
 
     public function sortBy($field)
     {
-        if ($field == $this->sortField) {
-            $this->sortDirection = $this->sortDirection == 'asc' ? 'desc' : 'asc';
-        } else {
-            $this->sortDirection = 'asc';
-        }
-        $this->sortField = $field;
+        if (!isset($this->sorts[$field]))  return $this->sorts[$field] = 'asc';
+
+        if ($this->sorts[$field] == 'asc') return $this->sorts[$field] = 'desc';
+
+        unset($this->sorts[$field]);
     }
 
     /**
@@ -28,6 +26,9 @@ trait WithSorting
      */
     public function applySorting($query)
     {
-        return $query->orderBy($this->sortField, $this->sortDirection);
+        foreach ($this->sorts as $field => $direction) {
+            $query->orderBy($field, $direction);
+        }
+        return $query;
     }
 }
