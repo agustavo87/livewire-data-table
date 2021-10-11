@@ -6,6 +6,7 @@ use App\Transaction;
 use Livewire\Component;
 use Illuminate\Support\Facades\Response;
 use App\Http\Livewire\DataTable\WithSorting;
+use App\Http\Livewire\DataTable\WithCachedRows;
 use App\Http\Livewire\DataTable\WithBulkActions;
 use App\Http\Livewire\DataTable\WithPerPagePagination;
 
@@ -17,7 +18,7 @@ use App\Http\Livewire\DataTable\WithPerPagePagination;
  */
 class Dashboard extends Component
 {
-    use WithPerPagePagination, WithSorting, WithBulkActions;
+    use WithPerPagePagination, WithSorting, WithBulkActions, WithCachedRows;
 
     public Transaction $editing;
 
@@ -35,6 +36,8 @@ class Dashboard extends Component
 
     protected $queryString = [];
 
+    protected $listeners = ['refreshTransactions' => '$refresh'];
+
     public function rules()
     {
         return [
@@ -50,6 +53,12 @@ class Dashboard extends Component
         $this->editing = $this->makeBlankTransaction();
     }
 
+    public function toggleShowFilters()
+    {
+        $this->useCachedRows();
+        $this->showFilters  = !$this->showFilters;
+    }
+
     public function updatedFilters()
     {
         $this->resetPage();
@@ -62,6 +71,7 @@ class Dashboard extends Component
 
     public function edit(Transaction $transaction)
     {
+        $this->useCachedRows();
         if ($this->editing->isNot($transaction)) {
             $this->editing = $transaction;
         }
@@ -70,6 +80,7 @@ class Dashboard extends Component
 
     public function create()
     {
+        $this->useCachedRows();
         if ($this->editing->getKey()) {
             $this->editing = $this->makeBlankTransaction();
         }
@@ -119,7 +130,9 @@ class Dashboard extends Component
 
     public function getRowsProperty()
     {
-        return $this->applyPagination($this->rowsQuery);
+        return $this->cache(function () {
+            return $this->applyPagination($this->rowsQuery);
+        });
     }
 
     public function render()

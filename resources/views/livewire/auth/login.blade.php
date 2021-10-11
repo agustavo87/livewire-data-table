@@ -17,8 +17,12 @@
             <input wire:model.defer="password" class="form-input @error('password') border-red-500 @enderror" type="password" name="password" id="password"  placeholder="" required />
             @error('password') <div class="text-red-700 text-sm mt-1"> {{ $message }} </div> @enderror
           </label>
-          <div class="flex">
-            <input type="submit" class="btn btn-primary mt-5 sm:mt-0 w-full" value="Submit" />
+          <div class="flex items-center justify-between">
+            <label class="flex items-center">
+              <input type="checkbox" class="form-checkbox" wire:model.defer="remember" />
+              <span class="block ml-2 text-xs font-medium text-gray-700 cursor-pointer">Remember me</span>
+            </label>
+            <input type="submit" class="btn btn-primary" value="Login" />
           </div>
         </form>
       </div>

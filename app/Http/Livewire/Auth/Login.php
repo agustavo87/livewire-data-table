@@ -6,6 +6,7 @@ use Illuminate\Http\Response as HttpResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Response;
 use Livewire\Component;
+use Session;
 
 class Login extends Component
 {
@@ -13,16 +14,26 @@ class Login extends Component
 
     public $password;
 
+    public $remember = true;
+
     protected $rules = [
         'email' => 'required|email',
         'password' => 'required',
+        'remember'  => 'required|boolean'
     ];
 
     public function login()
     {
-        $credentials = $this->validate();
+        $data = $this->validate();
 
-        return Auth::attempt($credentials) ?
+        $attempt = Auth::attempt([
+            'email' => $data['email'],
+            'password' => $data['password']
+        ], $data['remember']);
+
+        Session::put('prueba', 'hola');
+
+        return $attempt ?
             Response::redirectToIntended(route('dashboard'), HttpResponse::HTTP_PERMANENTLY_REDIRECT)
             : $this->addError('email', trans('auth.failed'));
     }

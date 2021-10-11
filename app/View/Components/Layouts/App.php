@@ -2,9 +2,7 @@
 
 namespace App\View\Components\Layouts;
 
-use App\User;
 use Illuminate\View\Component;
-use Illuminate\Support\Facades\Auth;
 
 class App extends Component
 {
@@ -25,8 +23,6 @@ class App extends Component
      */
     public function render()
     {
-        return view('components.layouts.app', [
-            'user' => Auth::user()
-        ]);
+        return view('components.layouts.app');
     }
 }

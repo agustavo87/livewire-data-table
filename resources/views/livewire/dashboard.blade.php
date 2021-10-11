@@ -5,10 +5,10 @@
 
         {{-- Top bar --}}
         <div class="flex justify-between">
-            <div class="w-2/4 flex space-x-4">
+            <div class="flex space-x-4">
                 <x-input.text wire:model="filters.search" placeholder="Search transactions..." />
 
-                <x-button.link wire:click="$toggle('showFilters')">@if($showFilters) Hide @endif Advance search</x-button.link>
+                <x-button.link wire:click="toggleShowFilters">@if($showFilters) Hide @endif Advance search</x-button.link>
             </div>
 
             <div class="flex space-x-2 items-center">
@@ -28,6 +28,8 @@
                         <x-icons.trash class="text-gray-400"/> <span>Delete</span>
                     </x-dropdown.item>
                 </x-dropdown>
+
+                <livewire:import-transactions />
 
                 <x-button.primary wire:click="create" class="flex"><x-icons.plus class="-ml-1.5" />New</x-button.primary>
             </div>
